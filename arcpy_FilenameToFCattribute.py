@@ -11,7 +11,7 @@ from arcpy import env
 arcpy.env.overwriteOutput = True
 
 # Set the workspace directory 
-env.workspace = r"C:\Users\...\.gdb" 
+env.workspace = r"C:\Users\...\.gdb"
 
 # Get the list of the featureclasses to process
 fc_tables = arcpy.ListFeatureClasses()
@@ -22,10 +22,10 @@ for fc in fc_tables:
 
     # Define field name and expression
     field = "FILENAME"
-    expression = str(fc) #populates field   
+    expression = str(fc)  # populates field
 
     # Create a new field with a new name
-    arcpy.AddField_management(fc,field,"TEXT")
+    arcpy.AddField_management(fc, field, "TEXT")
 
     # Calculate field here
-    arcpy.CalculateField_management(fc, field, '"'+expression+'"', "PYTHON")
+    arcpy.CalculateField_management(fc, field, '"' + expression + '"', "PYTHON")

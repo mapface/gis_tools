@@ -12,7 +12,7 @@ import arcpy
 import os
 
 # Set workspace (where all the KMLs are)
-arcpy.env.workspace = r"C:\Users\AUAQ508040\Data\GoldCoastVehicleSignage\OTHER_KML"
+arcpy.env.workspace = r"C:\...\"
 
 # Set local variables and location for the consolidated file geodatabase
 out_location = r"C:\Users\AUAQ508040\Data\GoldCoastVehicleSignage\OTHER_KML"
@@ -24,9 +24,9 @@ arcpy.management.CreateFileGDB(out_location, gdb)
 
 # Convert all KMZ and KML files found in the current workspace
 for f in arcpy.ListFiles('*.KM*'):
-        km = os.path.join(arcpy.env.workspace, f)
-        print("CONVERTING: {0}".format(km))
-        arcpy.conversion.KMLToLayer(km, out_location)
+    km = os.path.join(arcpy.env.workspace, f)
+    print("CONVERTING: {0}".format(km))
+    arcpy.conversion.KMLToLayer(km, out_location)
 
 # Change the workspace to fGDB location
 arcpy.env.workspace = out_location
@@ -45,17 +45,14 @@ for fgdb in wks:
     feature_classes = arcpy.ListFeatureClasses('*', '', 'Placemarks')
 
     fgdb_name = os.path.basename(fgdb)[:-4]  # Get the name of the source file geodatabase
-    
+
     for fc in feature_classes:
-            fc_name = fc[:-4] if fc.endswith('.shp') else fc  # Remove extension from feature class name
-            target_fc_name = f"{fgdb_name}_{fc_name}"
-            count = 1
-            while target_fc_name in arcpy.ListFeatureClasses():  # Check if feature class name already exists
-                target_fc_name = f"{fgdb_name}_{fc_name}_{count}"  # Append _1, _2, _3, etc. until a unique name is found
-                count += 1
+        fc_name = fc[:-4] if fc.endswith('.shp') else fc  # Remove extension from feature class name
+        target_fc_name = f"{fgdb_name}_{fc_name}"
+        count = 1
+        while target_fc_name in arcpy.ListFeatureClasses():  # Check if feature class name already exists
+            target_fc_name = f"{fgdb_name}_{fc_name}_{count}"  # Append _1, _2, _3, etc. until a unique name is found
+            count += 1
     print(f"COPYING: {fc} TO: {target_fc_name}")
     fc_copy = os.path.join(fgdb, 'Placemarks', fc)
     arcpy.conversion.FeatureClassToFeatureClass(fc_copy, gdb_location, target_fc_name)
-
-
-

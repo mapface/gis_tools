@@ -7,6 +7,7 @@ May 2023
 
 import arcpy.mp
 import os
+
 arcpy.env.overwriteOutput = True
 
 # Setup
@@ -14,14 +15,12 @@ gdb = r""
 
 arcpy.env.workspace = gdb
 
-#select all fc
+# select all fc
 fc_all = arcpy.ListFeatureClasses()
 
-#clip all
+# clip all
 for fc in fc_all:
     print(fc)
 
-#finish
+# finish
 print("Script complete.")
-
-
